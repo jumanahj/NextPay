@@ -1,0 +1,158 @@
+/* Core Layout */
+.auth-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f2f5;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* The Neat Login Card */
+.login-card {
+    display: flex;
+    width: 850px;
+    height: 550px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Left Side Banner */
+.login-side-banner {
+    flex: 1;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: white;
+}
+
+.banner-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #fbbf24; /* Your Gold Accent */
+}
+
+.banner-content p {
+    font-size: 1rem;
+    opacity: 0.8;
+    letter-spacing: 1px;
+}
+
+/* Right Side Form */
+.login-form-area {
+    flex: 1.2;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-header h2 {
+    font-size: 1.8rem;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+/* Neat Form Alignment */
+.neat-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-group input, 
+.form-group select {
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #f8fafc;
+    transition: all 0.2s;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+    outline: none;
+    border-color: #fbbf24;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+}
+
+/* Submit Button */
+.login-btn {
+    margin-top: 10px;
+    padding: 14px;
+    background: #1e293b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.login-btn:hover {
+    background: #fbbf24;
+    color: #000;
+}
+
+.login-btn:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+}
+
+/* Footer Link */
+.form-footer {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.form-footer span {
+    color: #1e293b;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.form-footer span:hover {
+    text-decoration: underline;
+}
+
+/* Responsive fixes */
+@media (max-width: 880px) {
+    .login-card {
+        width: 95%;
+        flex-direction: column;
+        height: auto;
+    }
+    .login-side-banner {
+        padding: 30px;
+    }
+    .login-form-area {
+        padding: 40px 30px;
+    }
+}

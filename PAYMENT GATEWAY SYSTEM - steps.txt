@@ -1,0 +1,10 @@
+PAYMENT GATEWAY SYSTEM :
+
+While creating new merchant - after creating , insert values for them in the bank_accounts table (the account_numbers, phone number , bank name , ifsc code ) should match both the tables
+
+
+while creating new customer - after creating , insert values for them in the bank_accounts table (the account_numbers, phone number , bank name , ifsc code  all should be same) 
+			    - then also insert values for the payment methods (debit,credit,upi) for all this the card number and account numbers must be the same (make sure that all the 			      values are the same )
+
+then link the customers with the merchants in the - customer_merchant_assignments table ----- (this can be done in the admin page also as well as insert values in the sql table)
+

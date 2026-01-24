@@ -1,0 +1,140 @@
+/* app.css */
+
+/* General page layout */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e3f2fd; /* soft light blue background */
+  color: #0d47a1; /* deep blue text */
+}
+
+/* Home Page */
+.auth-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.auth-home h1 {
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+/* Buttons */
+.auth-home button,
+.auth-container button {
+  padding: 12px 25px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  background-color: #1976d2;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.auth-home button:hover,
+.auth-container button:hover {
+  background-color: #0d47a1;
+  transform: translateY(-2px);
+}
+
+/* Form containers */
+.auth-container {
+  width: 400px;
+  margin: 60px auto;
+  padding: 35px 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Inputs and Selects */
+.auth-container input,
+.auth-container select {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.auth-container input:focus,
+.auth-container select:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 5px rgba(25, 118, 210, 0.3);
+}
+
+/* Placeholder styling */
+input::placeholder,
+select option {
+  color: #90a4ae;
+}
+
+/* MerchantPage / CustomerPage container */
+.page-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Nested Links / Navigation inside MerchantPage */
+.merchant-nav {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.merchant-nav a {
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.merchant-nav a:hover {
+  background-color: #0d47a1;
+}
+
+/* Tables (Transactions / Payments) */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th,
+table td {
+  border: 1px solid #cfd8dc;
+  padding: 10px;
+  text-align: left;
+}
+
+table th {
+  background-color: #1976d2;
+  color: #ffffff;
+}
+
+table tr:nth-child(even) {
+  background-color: #f1f8ff;
+}

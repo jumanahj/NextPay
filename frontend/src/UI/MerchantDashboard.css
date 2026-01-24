@@ -1,0 +1,170 @@
+/* Dashboard Content Area */
+.dashboard-content {
+    animation: fadeIn 0.5s ease;
+}
+
+.section-header {
+    margin-bottom: 25px;
+}
+
+.section-header h3 {
+    font-size: 1.5rem;
+    color: #1e293b;
+    margin: 0;
+}
+
+.section-header p {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Table Styling */
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.merchant-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.merchant-table th {
+    background: #f8fafc;
+    padding: 15px 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.merchant-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 0.95rem;
+}
+
+.id-badge {
+    background: #f1f5f9;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-weight: 600;
+}
+
+.collect-btn {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.collect-btn:hover {
+    background: #fbbf24;
+    color: #000;
+}
+
+.selected-row {
+    background-color: #fefce8;
+}
+
+/* Floating Collection Card (Modal) */
+.collection-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.collection-card {
+    background: white;
+    width: 400px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.card-header h4 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #1e293b;
+}
+
+.card-header p {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #475569;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    border-color: #fbbf24;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+}
+
+.card-actions {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.submit-request-btn {
+    background: #fbbf24;
+    color: #000;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cancel-request-btn {
+    background: transparent;
+    color: #64748b;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

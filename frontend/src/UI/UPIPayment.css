@@ -1,0 +1,148 @@
+/* =========================================
+   1. CONTAINER & THEME
+   ========================================= */
+.upi-payment-container {
+  width: 450px;
+  background: #ffffff;
+  padding: 35px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eef2f6;
+  text-align: left;
+}
+
+.upi-payment-container h2 {
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   2. UPI SPECIFIC FORM STYLES
+   ========================================= */
+.upi-form-box {
+  background: #f8fafc;
+  border-radius: 18px;
+  padding: 25px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 25px;
+}
+
+.upi-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.upi-logo-badge {
+  background: linear-gradient(135deg, #1e293b, #000000);
+  color: #fbbf24; /* Gold text */
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.upi-header p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.input-field-group {
+  margin-bottom: 20px;
+}
+
+.input-field-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.input-field-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.input-field-group input:focus {
+  border-color: #fbbf24;
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+}
+
+.upi-security-note {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+/* =========================================
+   3. BUTTON & MODAL (Synced with Cards)
+   ========================================= */
+.pay-now-btn {
+  width: 100%;
+  padding: 16px;
+  background: #fbbf24; /* Gold matching card chips */
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.pay-now-btn:hover {
+  background: #f59e0b;
+  transform: translateY(-2px);
+}
+
+.pay-now-btn:disabled {
+  background: #e2e8f0;
+  cursor: not-allowed;
+  color: #94a3b8;
+}
+
+/* Modal is the same as Card components for consistency */
+.status-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.status-modal {
+  background: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  border: 2px solid #fbbf24;
+  width: 320px;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

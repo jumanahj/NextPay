@@ -1,0 +1,4 @@
+merchant_id,merchant_user_id,merchant_name,business_name,business_domain,email,password,contact_person_name,contact_person_mobile,gst_number,account_id,created_at,updated_at
+1,MER-676AC273,Nitin,XYZ,XYZ,nitinms033@okaxis,123,"NITIN MARIMUTHU",06380337571,AXY,1,"2026-01-01 11:16:55","2026-01-05 13:50:16"
+2,MER-0D450A40,TestMerch,TestName,TestName,Test@gmail.com,123456,TestContact,7380337571,TestGst,9,"2026-01-05 06:24:43","2026-01-05 06:24:43"
+3,MER-C5A0F04F,TestMerch2,Test1,Test1,Tes1t@gmail.com,$2b$10$oaYSLmzoc6KsLNKSCTxNo.vN1ZIXYjDjPkt2/y7ez/CicHmCyTI/K,TestContact1,9380037571,TestGst1,11,"2026-01-11 10:07:03","2026-01-11 10:07:03"

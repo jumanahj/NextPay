@@ -1,0 +1,98 @@
+Database
+-Customer
+-Merchant
+======================================
+Bank Accounts
+	Bank name
+	ifsc code
+	account number
+	registered phone number
+	account status
+	kyc
+
+Accounts Table
+-usertype(merchant or customer)
+-account_id
+-Bank Name
+-Holder Name
+-Account Number
+-Phone Number
+-Pan Number
+-IFSC Code
+-Account type
+-Registered Mobile Number
+-Permanent Address
+======================================
+Registered Banks
+-Bank Names
+-IFSC
+
+=====================================
+Requests Table
+-Reference Number
+-Sending_customer_id
+-Receiving_merchant
+-Order Id
+-Due Date
+-Initialised date
+-Amount 
+-status(paid, not paid)
+=====================================
+Admin Page
+	Assign customers to merchants
+	setting up the payments
+
+=====================================
+Transactions Table
+-Transaction ID
+-Sender account number
+-Receiver account number
+-amount
+====================================
+Merchant Login/Signup
+-Merchant Bank Details
+-Merchant ID
+
+====================================
+Merchant Details
+-Merchant Name
+-Business Name
+-Business Domain
+-contact person name
+-contact person mobile_no
+-GST Number
+-Accounts Id
+
+===================================
+Customer details
+-Customer Name
+-Email
+-Accounts Table
+
+Customer Pages
+-Payment Requests Page
+
+Merchant Pages
+-Dashboard Page (Customer details, payment initialise,)
+-Transactions History()
+
+===============================================
+Customer Payment Methods
+
+Debit card
+-Holder Name
+-Card Number
+-Expiry Date (MM/YYYY)
+-Card Network
+-CVV
+-Linked Bank Account Number
+-Card Status
+
+UPI
+-UPI ID
+-Phone Number
+-Account Number
+================================================
+Assigning customers
+-Customer_id
+-merchant_id 

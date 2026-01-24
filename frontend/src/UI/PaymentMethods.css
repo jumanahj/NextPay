@@ -1,0 +1,119 @@
+/* =========================================
+   1. MAIN LAYOUT & LIGHT THEME
+   ========================================= */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fa; /* Light, soft background for the whole page */
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Container for the Sidebar and Content */
+.payment-main-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* =========================================
+   2. SIDEBAR (Pinned to Left Corner)
+   ========================================= */
+.sidebar-container {
+  width: 260px;
+  background-color: #ffffff; /* Pure white sidebar */
+  border-right: 1px solid #e1e8ed;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
+}
+
+.sidebar-container h3 {
+  color: #1a1a1b;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  padding-left: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Method Buttons */
+.method-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.method-item {
+  margin-bottom: 12px;
+}
+
+.method-btn {
+  width: 100%;
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b; /* Slate grey text */
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover & Active States */
+.method-btn:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+.method-btn.active {
+  background-color: #1e293b; /* Dark theme for active selection */
+  color: #ffffff;
+  border-color: #1e293b;
+  box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
+}
+
+/* =========================================
+   3. CONTENT AREA (Right Side)
+   ========================================= */
+.payment-content-area {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  justify-content: center; /* Centers the card horizontally */
+  align-items: flex-start; /* Aligns card towards the top */
+  background: radial-gradient(circle at top right, #ffffff, #f4f7fa);
+}
+
+/* Animation for content switching */
+.payment-content-area > div {
+  animation: fadeIn 0.4s ease-out;
+  width: 100%;
+  max-width: 500px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   4. SHARED UI ELEMENTS (For Debit/Credit Cards)
+   ========================================= */
+.order-summary-badge {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.order-summary-badge div {
+  background: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  color: #475569;
+}
