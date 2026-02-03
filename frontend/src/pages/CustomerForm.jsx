@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_BASE } from "../api/config";
 import "../UI/CustomerForm.css";
 
 export default function CustomerForm() {
@@ -44,8 +45,37 @@ export default function CustomerForm() {
     setCredentials({ ...credentials, customer_user_id: id });
   };
 
+  const validatePersonalDetails = () => {
+    const { customer_name, email, mobile_no } = personal;
+    const nameRegex = /^[A-Za-z\s]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneRegex = /^\d{10}$/;
+
+    if (!nameRegex.test(customer_name)) return "Name must contain letters and spaces only";
+    if (!emailRegex.test(email)) return "Invalid email format";
+    if (!phoneRegex.test(mobile_no)) return "Phone number must be exactly 10 digits";
+    return null;
+  };
+
+  const validateAccountDetails = () => {
+    const { account_number, ifsc_code, bank_name } = account;
+    const accountNumberRegex = /^\d{12}$/;
+    const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+
+    if (!accountNumberRegex.test(account_number)) return "Account number must be exactly 12 digits";
+    if (!ifscRegex.test(ifsc_code)) return "Invalid IFSC code format";
+    if (!bank_name) return "Bank name is required";
+    return null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const personalError = validatePersonalDetails();
+    const accountError = validateAccountDetails();
+    if (personalError || accountError) {
+        setError(personalError || accountError);
+        return;
+    }
     setLoading(true);
     setError("");
 
@@ -56,7 +86,7 @@ export default function CustomerForm() {
         ...credentials,
       };
 
-      const res = await axios.post("http://localhost:3000/api/customers", payload);
+      const res = await axios.post(`${API_BASE}/api/customers`, payload);
 
       alert(`Customer created successfully: ${res.data.customer_user_id}`);
 

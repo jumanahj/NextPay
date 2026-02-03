@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_BASE } from "../api/config";
 import "../UI/SignIn.css";
 
 export default function SignIn() {
@@ -10,22 +11,30 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const validateSignIn = () => {
+    if (!role || !id || !password) {
+      return "All fields are required";
+    }
+    return null;
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!role || !id || !password) {
-      alert("All fields are required");
+    const error = validateSignIn();
+    if (error) {
+      alert(error);
       return;
     }
     setLoading(true);
     try {
       if (role === "customer") {
-        const res = await axios.post("http://localhost:3000/api/customers/customer_login", {
+        const res = await axios.post(`${API_BASE}/api/customers/customer_login`, {
           customer_user_id: id,
           password,
         });
         navigate(`/customer/${res.data.customer_user_id}`);
       } else if (role === "merchant") {
-        const res = await axios.post("http://localhost:3000/api/merchants/merchant_login", {
+        const res = await axios.post(`${API_BASE}/api/merchants/merchant_login`, {
           merchant_user_id: id,
           password,
         });

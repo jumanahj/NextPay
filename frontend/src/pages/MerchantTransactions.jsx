@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
+import { API_BASE } from "../api/config";
 import "../UI/MerchantTransactions.css";
 
 export default function MerchantTransactions() {
@@ -17,7 +18,7 @@ export default function MerchantTransactions() {
       try {
         setLoading(true);
         const res = await axios.get(
-          `http://localhost:3000/api/merchants/${merchantUserId}/transactions`
+          `${API_BASE}/api/merchants/${merchantUserId}/transactions`
         );
         setTransactions(res.data.transactions || []);
       } catch (err) {

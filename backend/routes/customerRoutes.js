@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require("../models/db");
 const bcrypt = require("bcrypt");
 
-router.post("/credit", async (req, res) => {
+const validateCreditPayment = (req, res, next) => {
   const {
     customerId,
     orderId,
@@ -12,7 +12,9 @@ router.post("/credit", async (req, res) => {
     paymentMode,
     cardDetails,
   } = req.body;
-
+  
+  console.log("Credit payment validation - received:", { customerId, orderId, referenceNumber, amount, paymentMode, cardDetails });
+  
   if (
     !customerId ||
     !orderId ||
@@ -22,14 +24,44 @@ router.post("/credit", async (req, res) => {
     !cardDetails?.cardNumber ||
     !cardDetails?.cvv ||
     !cardDetails?.expiryMonth ||
-    !cardDetails?.expiryYear
+    !cardDetails?.expiryYear ||
+    !cardDetails?.cardHolderName
   ) {
-    return res.status(400).json({ success: false, message: "Invalid request" });
+    return res.status(400).json({ error: "All fields are required" });
   }
+  if (String(cardDetails.cardNumber).length !== 16) {
+    return res.status(400).json({ error: "Card number must be 16 digits" });
+  }
+  if (String(cardDetails.cvv).length < 3 || String(cardDetails.cvv).length > 4) {
+    return res.status(400).json({ error: "CVV must be 3 or 4 digits" });
+  }
+  const expiryMonth = parseInt(cardDetails.expiryMonth);
+  const expiryYear = parseInt(cardDetails.expiryYear);
+  const currentYear = new Date().getFullYear();
+  if (expiryMonth < 1 || expiryMonth > 12) {
+    return res.status(400).json({ error: "Expiry month must be between 1 and 12" });
+  }
+  if (expiryYear < currentYear) {
+    return res.status(400).json({ error: "Expiry year must be current or future" });
+  }
+  console.log("Credit payment validation passed");
+  next();
+};
+
+router.post("/credit", validateCreditPayment, async (req, res) => {
+  const {
+    customerId,
+    orderId,
+    referenceNumber,
+    amount,
+    paymentMode,
+    cardDetails,
+  } = req.body;
 
   let conn;
 
   try {
+    console.log("Processing credit payment for order:", orderId);
     conn = await pool.getConnection();
     await conn.beginTransaction();
 
@@ -41,30 +73,50 @@ router.post("/credit", async (req, res) => {
     if (reqRows[0].status === "paid") throw new Error("Already paid");
     const merchantId = reqRows[0].receiving_merchant_id;
 
-    const [cardRows] = await conn.execute(
-      `SELECT account_number FROM credit_cards 
-       WHERE card_number = ? AND card_holder_name = ? AND cvv = ? AND expiry_month = ? AND expiry_year = ?`,
-      [
-        cardDetails.cardNumber,
-        cardDetails.cardHolderName,
-        cardDetails.cvv,
-        Number(cardDetails.expiryMonth),
-        Number(cardDetails.expiryYear),
-      ]
-    );
-
-    if (cardRows.length === 0) throw new Error("Invalid card details");
-    const customerAccountNumber = cardRows[0].account_number;
-
+    // First, verify the customer exists and get their account
     const [custRows] = await conn.execute(
       `SELECT account_number FROM customers WHERE customer_user_id = ?`,
       [customerId]
     );
 
     if (custRows.length === 0) throw new Error("Customer not found");
-    if (custRows[0].account_number !== customerAccountNumber)
-      throw new Error("Card does not belong to customer");
+    const customerAccountNumber = custRows[0].account_number;
 
+    // Check if credit card already exists - if not, insert it
+    const [existingCard] = await conn.execute(
+      `SELECT account_number FROM credit_cards WHERE card_number = ? AND cvv = ? AND expiry_month = ? AND expiry_year = ?`,
+      [
+        cardDetails.cardNumber,
+        cardDetails.cvv,
+        Number(cardDetails.expiryMonth),
+        Number(cardDetails.expiryYear),
+      ]
+    );
+
+    if (existingCard.length === 0) {
+      // Card doesn't exist - insert it
+      await conn.execute(
+        `INSERT INTO credit_cards (account_number, card_number, card_holder_name, expiry_month, expiry_year, cvv)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+        [
+          customerAccountNumber,
+          cardDetails.cardNumber,
+          cardDetails.cardHolderName,
+          Number(cardDetails.expiryMonth),
+          Number(cardDetails.expiryYear),
+          cardDetails.cvv,
+        ]
+      );
+      console.log("New credit card registered");
+    } else {
+      // Card exists - verify it belongs to this customer
+      if (existingCard[0].account_number !== customerAccountNumber) {
+        throw new Error("Card does not belong to this customer");
+      }
+      console.log("Existing credit card verified");
+    }
+
+    // Now get the customer's bank account
     const [custAccRows] = await conn.execute(
       `SELECT * FROM bank_accounts WHERE account_number = ? AND account_status = 'active' FOR UPDATE`,
       [customerAccountNumber]
@@ -101,6 +153,8 @@ router.post("/credit", async (req, res) => {
     if (merchantAccRows.length === 0)
       throw new Error("Merchant bank account inactive");
 
+    console.log("Transferring amount:", amount, "from", customerAccountNumber, "to", merchantAccountNumber);
+    
     await conn.execute(
       `UPDATE bank_accounts SET balance = balance - ? WHERE account_number = ?`,
       [amount, customerAccountNumber]
@@ -123,6 +177,7 @@ router.post("/credit", async (req, res) => {
     ]);
 
     await conn.commit();
+    console.log("Credit payment successful for order:", orderId);
     res.json({ success: true, message: "Payment successful" });
   } catch (err) {
     if (conn) await conn.rollback();

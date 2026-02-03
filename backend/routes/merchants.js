@@ -7,42 +7,54 @@ router.get("/test", (req, res) => {
   res.json({ message: "Backend is working!" });
 });
 
-router.post("/merchant_login", async (req, res) => {
+const validateMerchantLogin = (req, res, next) => {
   const { merchant_user_id, password } = req.body;
-
   if (!merchant_user_id || !password) {
-    return res.status(400).json({ message: "Missing credentials" });
+    return res.status(400).json({ error: "Missing credentials" });
   }
+  next();
+};
 
-  try {
-    const [rows] = await db.execute(
-      `SELECT merchant_user_id, password
-       FROM merchants
-       WHERE merchant_user_id = ?`,
-      [merchant_user_id]
-    );
+router.post(
+  "/merchant_login",
+  validateMerchantLogin,
+  async (req, res) => {
+    const { merchant_user_id, password } = req.body;
 
-    if (rows.length === 0) {
-      return res
-        .status(401)
-        .json({ message: "Invalid merchant ID or password" });
+    if (!merchant_user_id || !password) {
+      return res.status(400).json({ message: "Missing credentials" });
     }
 
-    if (password !== rows[0].password) {
-      return res
-        .status(401)
-        .json({ message: "Invalid merchant ID or password" });
-    }
+    try {
+      const [rows] = await db.execute(
+        `SELECT merchant_user_id, password
+         FROM merchants
+         WHERE merchant_user_id = ?`,
+        [merchant_user_id]
+      );
 
-    res.json({
-      message: "Merchant login successful",
-      merchant_user_id: rows[0].merchant_user_id,
-    });
-  } catch (err) {
-    console.error("Merchant login error:", err);
-    res.status(500).json({ message: "Server error" });
+      if (rows.length === 0) {
+        return res
+          .status(401)
+          .json({ message: "Invalid merchant ID or password" });
+      }
+
+      if (password !== rows[0].password) {
+        return res
+          .status(401)
+          .json({ message: "Invalid merchant ID or password" });
+      }
+
+      res.json({
+        message: "Merchant login successful",
+        merchant_user_id: rows[0].merchant_user_id,
+      });
+    } catch (err) {
+      console.error("Merchant login error:", err);
+      res.status(500).json({ message: "Server error" });
+    }
   }
-});
+);
 
 router.get("/:merchantUserId/transactions", async (req, res) => {
   const { merchantUserId } = req.params;
@@ -496,7 +508,18 @@ router.post("/", async (req, res) => {
     !merchant.email ||
     !merchant.password ||
     !merchant.merchant_name ||
-    !account.account_number
+    !account.account_number ||
+    !merchant.business_name ||
+    !merchant.business_domain ||
+    !merchant.contact_person_name ||
+    !merchant.contact_person_mobile ||
+    !merchant.gst_number ||
+    !account.bank_name ||
+    !account.holder_name ||
+    !account.ifsc_code ||
+    !account.registered_mobile_number ||
+    !account.pan_number ||
+    !account.permanent_address
   ) {
     return res.status(400).json({ error: "Missing required fields" });
   }
@@ -518,8 +541,8 @@ router.post("/", async (req, res) => {
         account.holder_name,
         account.account_number,
         account.ifsc_code,
-        account.account_type,
-        account.phone_number,
+        account.account_type || "savings",
+        account.registered_mobile_number,
         account.registered_mobile_number,
         account.pan_number,
         account.permanent_address,
@@ -568,8 +591,24 @@ router.post("/", async (req, res) => {
   } catch (err) {
     await connection.rollback();
     console.error("Merchant creation failed:", err);
+    
+    let errorMessage = "Failed to create merchant";
+    if (err.code === "ER_DUP_ENTRY") {
+      if (err.message.includes("email")) {
+        errorMessage = "Email already exists";
+      } else if (err.message.includes("gst_number")) {
+        errorMessage = "GST number already exists";
+      } else if (err.message.includes("account_number")) {
+        errorMessage = "Account number already exists";
+      } else if (err.message.includes("merchant_user_id")) {
+        errorMessage = "Merchant ID already exists";
+      } else {
+        errorMessage = "Duplicate entry found";
+      }
+    }
+    
     res.status(500).json({
-      error: "Failed to create merchant",
+      error: errorMessage,
       details: err.message,
     });
   } finally {

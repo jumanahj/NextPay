@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_BASE } from "../api/config";
 import "../UI/CustomerPage.css";
 
 export default function CustomerPage() {
@@ -13,7 +14,7 @@ export default function CustomerPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/customers/${id}/requests`)
+      .get(`${API_BASE}/api/customers/${id}/requests`)
       .then((res) => setRequests(res.data))
       .catch((err) => {
         console.error(err);

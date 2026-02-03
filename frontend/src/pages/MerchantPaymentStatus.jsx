@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useOutletContext } from "react-router-dom";
+import { API_BASE } from "../api/config";
 import "../UI/MerchantPaymentStatus.css";
 
 export default function MerchantPaymentStatus() {
@@ -11,7 +12,7 @@ export default function MerchantPaymentStatus() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/merchants/${merchantId}/requests`)
+      .get(`${API_BASE}/api/merchants/${merchantId}/requests`)
       .then(res => setRequests(res.data))
       .catch(() => setError("Failed to load payment status"))
       .finally(() => setLoading(false));

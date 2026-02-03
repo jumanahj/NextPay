@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
+import { API_BASE } from "../api/config";
 import "../UI/MerchantDashboard.css";
 
 export default function MerchantDashboard() {
@@ -14,7 +15,7 @@ export default function MerchantDashboard() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/merchants/${merchantId}/customers`)
+      .get(`${API_BASE}/api/merchants/${merchantId}/customers`)
       .then(res => setCustomers(res.data))
       .catch(() => alert("Failed to load assigned customers"));
   }, [merchantId]);
@@ -27,7 +28,7 @@ export default function MerchantDashboard() {
     if (!form.due_date) return alert("Select a due date");
 
     try {
-      const res = await axios.post("http://localhost:3000/api/merchants/requests", {
+      const res = await axios.post(`${API_BASE}/api/merchants/requests`, {
         sending_customer_id: selectedCustomer.customer_id,
         receiving_merchant_id: merchantId,
         order_id: generateOrderId(),
